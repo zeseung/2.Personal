@@ -48,6 +48,7 @@ def bookmarking():
 
     return jsonify({'result': 'success'})
 
+@app.route('/comment', methods=['POST'])
 def commenting():
 # 코멘트를 남기면 북마크 별로 저장 (mongoDB 고유 아이디는 어떻게 쌓지?)
     bookmarkId_receive = request.form['_id']
@@ -60,6 +61,7 @@ def commenting():
 
     return jsonify({'result': 'success'})
 '''
+@app.route('/like', methods=['POST'])
 def likecounting():
 # 좋아요를 누르면 bookmarkDB의 likeCount에 +1씩 쌓음 (이걸 이렇게 하는 것이 맞나?)
 '''
