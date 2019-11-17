@@ -1,193 +1,83 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Webpage Title -->
-    <title>세상에서 가장 큰 메모장</title>
-
+    <title>Webmark Together</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    
+    <link rel = "stylesheet" type = "text/css" href = "mystyle.css">
     <!-- JS -->   
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"> 
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
-    </script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
-    </script>
-   
-    <script>
-      // 포스팅 영역 열고 닫기
-      function openClose() {
-        if ( $('#postingBox').css('display') == 'block') {
-          $('#postingBox').hide(); 
-          $('#postingBtn').text('남기기')
-        } else {
-          $ ('#postingBox').show();
-          $('#postingBtn').text('닫기')
-        }
-      }
-    </script>
-
-    <script>
-      // 포스팅하기
-      function posting() {
-        let url = $('#postingBoxAddress').val();
-        let comment = $('#postingBoxComment').val();
-        let author = 'zeseung';
-
-        $.ajax({
-          type: "POST",
-          //url: "http://spartacodingclub.shop/post",
-          url: "/post",
-          data: { url_give: url, comment_give: comment, author_give: author },
-          success: function(response){
-            if (response['result'] == "success") {
-              alert('메모를 등록하였습니다.');
-              location.reload(); // 화면 새로고침 (학습자료에서 앞에 window라고 붙이는 이유는?)
-            } else {
-              alert('메모를 등록하지 못했습니다.') // 이거 왜 안될까?
-            }
-          }
-        })
-      } 
-    </script>
-
-    <script>
-      // 포스팅가져오기
-      $(document).ready(function(){
-        $('#cardsBox').html(''); // html 지우기
-        listing();
-      });
-
-      function listing() {
-        $.ajax({
-          type: "GET",
-          //url: "http://spartacodingclub.shop/post?author_give=zeseung", 
-          url: "/post?author_give=zeseung", 
-          data: {},
-          success: function(response){
-            if (response['result'] == "success") {
-              let articles = response['articles'];
-              for (let i = 0; i < articles.length; i++) {
-                makeCard(articles[i]['comment'], articles[i]['desc'], articles[i]['image'], articles[i]['title'], articles[i]['url'])
-              }
-            } else {
-              alert('기사를 받아오지 못했습니다.');
-            }
-            // console.log(response)
-          }
-        })
-      }
-
-      function makeCard(comment, desc, image, title, url) {
-        let tempHtml = '<div class="card"> \
-          <img class="card-img-top" src="'+image+'" alt="Card image cap"> \
-          <div class="card-body"> \
-          <a href="'+url+'" target="_blank" class="card-title"> '+title+' </a> \
-          <p class="card-text"> '+desc+' </p> \
-          <p class="cardComment"> '+comment+' </p> \
-        </div> \
-      </div>';
-      $('#cardsBox').append(tempHtml);
-      }
-
-    </script>
-
-    <!-- 폰트 적용 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- Google Webfont -->
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:300&display=swap" rel="stylesheet">
 
-    <style>
-      * {font-family: 'Noto Sans KR', sans-serif;}
-      .screenWidth {width: 1280px; margin: 0px auto 20px auto;}
-      .cardComment {color: blue; font-size: 14px;}
-      .postingBoxStyle {border: 1px solid lightgrey; border-radius: 4px; padding: 24px 28px 24px 28px; background-color: #F2F2F2;}
-      .footer {text-align: center; font-size: 12px;}
-      #postingBox {display:none;}
-    </style> 
+    <script> // 북마크 등록
+    </script>
+
+    <script> // 코멘트 추가
+    </script>
+
+    <script> // 좋아요 추가
+    </script>
+
+    <script> // 북마크 불러오기
+    </script>
   </head>
   
   <body>
-    <div class="jumbotron screenWidth">
-      <h1 class="display-4"> 
-        세상에서 가장 큰 메모장
+      <h1 class="servicename"> 
+        Webmark Together
       </h1>
-      <p class="lead">
-        중요한 웹사이트를 기억해두는 공간입니다.
+      <p>
+      	자유롭게 웹을 공유하고 생각을 이야기하세요.
       </p>
-      <hr class="my-4">
-      <p class="lead">
-        <a class="btn btn-primary btn-lg" id="postingBtn" href="#" role="button" onclick="openClose()"> 남기기 </a>
-      </p>
-    </div>
-  
-    <div class="postingBoxStyle screenWidth" id="postingBox">
-      <div class="form-group">
-        <input type="text" class="form-control" id="postingBoxAddress" placeholder="주소 입력">
+      <div>
+        <button onclick="posting()" class="btn btn-primary btn-sm">등록</button>
       </div>
-      <div class="form-group">
-        <input type="text" class="form-control" id="postingBoxComment" placeholder="코멘트 입력">
-      <hr class="my-4">
+      <select class="form-control">
+        <option selected>카테고리</option>
+        <option>뉴스</option>
+        <option>자료</option>
+        <option>기타</option>
+      </select>
+      <div>
+        <input type="text" placeholder="타이틀">
       </div>
-      <button onclick="posting()" type="button" id="postingComplete" class="btn btn-primary"> 완료 </button>
-    </div>
+      <div>
+        <input type="text" placeholder="URL">
+      <button onclick="posting_confirm()" class="btn btn-primary btn-sm">확인</button>
+      </div>
+      <div>
+        <button onclick="writing()" class="btn btn-primary btn-sm">코멘트</button>
+      </div>
+      <div>
+        <input type="text" placeholder="닉네임">
+      </div>
+      <div>
+        <input type="text" placeholder="내용">
+      </div>
+      <div>
+        <button onclick="writing_confirm()" class="btn btn-primary btn-sm">확인</button>
+      </div>
+      <div>
+        <button onclick="like()" class="btn btn-primary btn-sm">좋아요</button>
+      </div>
 
-    <div id="cardsBox"class="card-columns screenWidth">
       <div class="card">
         <img class="card-img-top" src="https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/2015_Dec/mercedes-benz-suv-hed-2015.png" alt="Card image cap">
         <div class="card-body">
           <h5 class="card-title"> 타이틀 </h5>
-          <p class="card-text"> 메모에 대한 설명이 들어갑니다. </p>
-          <p class="cardComment"> 코멘트가 들어갑니다. </p>
+          <p> 닉네임 </p>
+          <p> 남긴 코멘트가 들어갑니다. </p>
         </div>
       </div>
-      <div class="card">
-        <img class="card-img-top" src="https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/2015_Dec/mercedes-benz-suv-hed-2015.png" alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title"> 타이틀 </h5>
-          <p class="card-text"> 메모에 대한 설명이 들어갑니다. </p>
-          <p class="cardComment"> 코멘트가 들어갑니다. </p>
-        </div>
-      </div>
-      <div class="card">
-        <img class="card-img-top" src="https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/2015_Dec/mercedes-benz-suv-hed-2015.png" alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title"> 타이틀 </h5>
-          <p class="card-text"> 메모에 대한 설명이 들어갑니다. </p>
-          <p class="cardComment"> 코멘트가 들어갑니다. </p>
-        </div>
-      </div>
-      <div class="card">
-        <img class="card-img-top" src="https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/2015_Dec/mercedes-benz-suv-hed-2015.png" alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title"> 타이틀 </h5>
-          <p class="card-text"> 메모에 대한 설명이 들어갑니다. </p>
-          <p class="cardComment"> 코멘트가 들어갑니다. </p>
-        </div>
-      </div>
-      <div class="card">
-        <img class="card-img-top" src="https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/2015_Dec/mercedes-benz-suv-hed-2015.png" alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title"> 타이틀 </h5>
-          <p class="card-text"> 메모에 대한 설명이 들어갑니다. </p>
-          <p class="cardComment"> 코멘트가 들어갑니다. </p>
-        </div>
-      </div>
-      <div class="card">
-        <img class="card-img-top" src="https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/2015_Dec/mercedes-benz-suv-hed-2015.png" alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title"> 타이틀 </h5>
-          <p class="card-text"> 메모에 대한 설명이 들어갑니다. </p>
-          <p class="cardComment"> 코멘트가 들어갑니다. </p>
-        </div>
-      </div>
-    </div>
-
-    <div style="padding:0px 0px 80px 0px;"></div>
+    
+    <div style="padding:0px 0px 40px 0px;"></div>
     <p class="footer"> Copyright(c) zeseung All rights reserved. </p>
-    <div style="padding:0px 0px 60px 0px;"></div>
+    <div style="padding:0px 0px 40px 0px;"></div>
   </body>
 </html>
