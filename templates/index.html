@@ -1,20 +1,13 @@
 <!doctype html>
 <html lang="en">
   <head>
-<<<<<<< HEAD
     <title>Webmark Together</title>
-=======
-    <title>북마크 투게더</title>
->>>>>>> 9e004e66cee9da414779c082069aec09f986b694
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<<<<<<< HEAD
     <link rel = "stylesheet" type = "text/css" href = "mystyle.css">
-=======
->>>>>>> 9e004e66cee9da414779c082069aec09f986b694
     <!-- JS -->   
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -36,13 +29,11 @@
   </head>
   
   <body>
-<<<<<<< HEAD
-      <h1 class="servicename"> 
-        Webmark Together
-      </h1>
-      <p>
-      	자유롭게 웹을 공유하고 생각을 이야기하세요.
-      </p>
+  <!-- 상단 -->
+      <h1 class="servicename"> Webmark Together </h1>
+      <p> 자유롭게 웹을 공유하고 생각을 이야기하세요. </p>
+
+  <!-- 포스팅 -->
       <div>
         <button onclick="posting()" class="btn btn-primary btn-sm">등록</button>
       </div>
@@ -57,47 +48,10 @@
       </div>
       <div>
         <input type="text" placeholder="URL">
+      </div>
       <button onclick="posting_confirm()" class="btn btn-primary btn-sm">확인</button>
-=======
-      <h1> 
-        함께 쓰는 북마크
-      </h1>
-      	자유롭게 공유하고 생각을 이야기하세요.
-      <p>
-        <a role="button" onclick="openClose()"> 등록 </a>
-      </p>
-      <div>
-        <input type="text" placeholder="타이틀">
-      </div>
-      <div>
-        <input type="text" placeholder="URL">
-      </div>
 
-      <p>
-        <a role="button" onclick="openClose()"> 코멘트 </a>
-      </p>
-      <div>
-        <input type="text" placeholder="닉네임">
-      </div>
-      <div>
-        <input type="text" placeholder="코멘트">
-      </div>
-
-      <p>
-        <a role="button" onclick="openClose()"> 좋아요 </a>
-      </p>
-
-
-    <div id="cardsBox"class="card-columns screenWidth">
-      <div class="card">
-        <img class="card-img-top" src="https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/2015_Dec/mercedes-benz-suv-hed-2015.png" alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title"> 타이틀 </h5>
-          <p class="card-text"> 메모에 대한 설명이 들어갑니다. </p>
-          <p class="cardComment"> 코멘트가 들어갑니다. </p>
-        </div>
->>>>>>> 9e004e66cee9da414779c082069aec09f986b694
-      </div>
+  <!-- 코멘트 -->
       <div>
         <button onclick="writing()" class="btn btn-primary btn-sm">코멘트</button>
       </div>
@@ -110,19 +64,25 @@
       <div>
         <button onclick="writing_confirm()" class="btn btn-primary btn-sm">확인</button>
       </div>
+
+  <!-- 좋아요 -->
       <div>
         <button onclick="like()" class="btn btn-primary btn-sm">좋아요</button>
       </div>
 
+  <!-- 전시 영역 -->
+    <div id="cardsBox"class="card-columns screenWidth">
       <div class="card">
         <img class="card-img-top" src="https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/2015_Dec/mercedes-benz-suv-hed-2015.png" alt="Card image cap">
         <div class="card-body">
           <h5 class="card-title"> 타이틀 </h5>
-          <p> 닉네임 </p>
-          <p> 남긴 코멘트가 들어갑니다. </p>
+          <p class="card-text"> 메모에 대한 설명이 들어갑니다. </p>
+          <p class="cardComment"> 코멘트가 들어갑니다. </p>
         </div>
       </div>
-    
+    </div>
+  
+  <!-- 하단 -->
     <div style="padding:0px 0px 40px 0px;"></div>
     <p class="footer"> Copyright(c) zeseung All rights reserved. </p>
     <div style="padding:0px 0px 40px 0px;"></div>
