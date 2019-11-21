@@ -1,20 +1,15 @@
 <!doctype html>
 <html lang="en">
   <head>
-<<<<<<< HEAD
     <title>Webmark Together</title>
-=======
-    <title>북마크 투게더</title>
->>>>>>> 9e004e66cee9da414779c082069aec09f986b694
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<<<<<<< HEAD
+    <!-- CSS file 참조
     <link rel = "stylesheet" type = "text/css" href = "mystyle.css">
-=======
->>>>>>> 9e004e66cee9da414779c082069aec09f986b694
+    -->
     <!-- JS -->   
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -22,107 +17,216 @@
     <!-- Google Webfont -->
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:300&display=swap" rel="stylesheet">
 
+    <script> // 북마크 등록 (부트스트랩에 있던 코드 - 뭔지 모름)
+ //     $('#posting').on('show.bs.modal', function (event) {
+ //       var button = $(event.relatedTarget) // Button that triggered the modal
+ //       var recipient = button.data('whatever') // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+ //       var modal = $(this)
+ //       modal.find('.modal-title').text('New message to ' + recipient)
+ //       modal.find('.modal-body input').val(recipient)
+ //      })
+    </script>
+
     <script> // 북마크 등록
+       function posting_confirm() {
+//        console.log('posting confirm call'); // 동작 확인
+        let category = $('#category').val();
+        let title = $('#title').val();
+        let url = $('#url').val();
+        let likeCount = 0;
+
+        console.log(category);
+        console.log(title);
+        console.log(url);
+        console.log(likeCount);
+
+        $.ajax({
+          type: "POST",
+          url: "/post",
+          data: { category_give: category, title_give: title, url_give: url, likeCount_give: likeCount},
+          success: function(response){
+//            console.log("success function recall"); // 동작 확인
+            if (response['result'] == "success") {
+              alert('등록하였습니다.');
+              location.reload(); // 화면 새로고침 (학습자료에서 앞에 window라고 붙이는 이유는?)
+            } else {
+              alert('등록하지 못했습니다.') // 이거 왜 안될까?
+            }
+          }
+        })
+      }
     </script>
 
-    <script> // 코멘트 추가
+    <script> // 코멘트를 추가해라
     </script>
 
-    <script> // 좋아요 추가
+    <script> // 좋아요를 +1
     </script>
 
-    <script> // 북마크 불러오기
+    <script> // 북마크를 불러와라 (첫번째 카테고리 불러오기)
+      $(document).ready(function(){
+        $('#cardsBox').html(''); // html 지우기
+        category1();
+      });
+
+      function category1() {
+        $.ajax({
+          type: "GET",
+          url: "/post?category_give=뉴스와 소식",
+          data: {},
+          success: function(response){
+            console.log("ajax listing")
+            if (response['result'] == "success") {
+              let bookmarklist = response['bookmarkDB_test'];
+              console.log("bookmarkDB response")
+              console.log("bookmarklist length")
+              console.log(bookmarklist)
+              for (var i = 0; i < bookmarklist.length; i++) {
+                makeCard(bookmarklist[i]['title'], bookmarklist[i]['url'], bookmarklist[i]['likeCount'])
+              }
+            } else {
+              alert('북마크를 받아오지 못했습니다.');
+            }
+             console.log("ajax listing")
+          }
+        })
+      }
+
+      function makeCard(title, url) {
+       console.log("rendering contents")
+        let tempHtml = '<div class="card"> \
+          <div class="card-body"> \
+          <a href="'+url+'" target="_blank" class="card-title"> '+title+' </a> \
+        </div> \
+      </div>';
+      $('#cardsBox').append(tempHtml);
+      }
     </script>
   </head>
   
   <body>
-<<<<<<< HEAD
-      <h1 class="servicename"> 
-        Webmark Together
-      </h1>
-      <p>
-      	자유롭게 웹을 공유하고 생각을 이야기하세요.
-      </p>
-      <div>
-        <button onclick="posting()" class="btn btn-primary btn-sm">등록</button>
-      </div>
-      <select class="form-control">
-        <option selected>카테고리</option>
-        <option>뉴스</option>
-        <option>자료</option>
-        <option>기타</option>
-      </select>
-      <div>
-        <input type="text" placeholder="타이틀">
-      </div>
-      <div>
-        <input type="text" placeholder="URL">
-      <button onclick="posting_confirm()" class="btn btn-primary btn-sm">확인</button>
-=======
-      <h1> 
-        함께 쓰는 북마크
-      </h1>
-      	자유롭게 공유하고 생각을 이야기하세요.
-      <p>
-        <a role="button" onclick="openClose()"> 등록 </a>
-      </p>
-      <div>
-        <input type="text" placeholder="타이틀">
-      </div>
-      <div>
-        <input type="text" placeholder="URL">
-      </div>
+  <!-- 상단 -->
+      <h1 class="servicename"> Webmark Together </h1>
+      <p> 자유롭게 웹을 공유하고 생각을 이야기하세요. </p>
 
-      <p>
-        <a role="button" onclick="openClose()"> 코멘트 </a>
-      </p>
+  <!-- 포스팅 -->
       <div>
-        <input type="text" placeholder="닉네임">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#posting" data-whatever="@mdo">등록하기</button>
+        <!-- <button onclick="posting()" class="btn btn-primary btn-sm">등록</button> -->
       </div>
-      <div>
-        <input type="text" placeholder="코멘트">
+      <div class="modal fade" id="posting" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">웹마크를 등록하세요</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="recipient-name" class="col-form-label">카테고리</label>
+                  <select class="form-control" id="category">
+                    <option selected>선택하세요</option>
+                    <option>뉴스와 소식</option>
+                    <option>자료나 업무 관련</option>
+                    <option>기타</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="message-text" class="col-form-label">타이틀</label>
+                  <textarea class="form-control" id="title"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="message-text" class="col-form-label">URL</label>
+                  <textarea class="form-control" id="url"></textarea>
+                </div>              
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">아니요</button>
+              <button onclick="posting_confirm()" type="button" class="btn btn-primary">네, 등록합니다</button>
+            </div>
+          </div>
+        </div>
       </div>
+    <div style="padding:0px 0px 8px 0px;"></div> <!-- 나중에 등록하기 버튼을 우측으로 보내고 삭제할 녀석 -->
+  <!-- 카테고리 선택 -->
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+    <!--  <label class="btn btn-secondary btn-sm">
+        <input onclick="categoryall()" type="radio" name="options" id="option1" autocomplete="off" checked> 전체보기
+      </label> 전체보기는 나중에 추가하자 -->
+      <label class="btn btn-secondary btn-sm active">
+        <input onclick="category1()"type="radio" name="options" id="option2" autocomplete="off"> 뉴스와 소식
+      </label>
+      <label class="btn btn-secondary btn-sm">
+        <input onclick="category2()" type="radio" name="options" id="option3" autocomplete="off"> 자료나 업무 관련
+      </label>
+      <label class="btn btn-secondary btn-sm">
+        <input onclick="category3()" type="radio" name="options" id="option3" autocomplete="off"> 기타
+      </label>
+    </div>
+  <!-- 카테고리 선택은 라디오로 변경
+    <div class="btn-group" role="group" aria-label="Basic example">
+      <button type="button" class="btn btn-secondary btn-sm">전체 보기</button>
+      <button type="button" class="btn btn-secondary btn-sm">뉴스와 소식 </button>
+      <button type="button" class="btn btn-secondary btn-sm">자료나 업무관련</button>
+      <button type="button" class="btn btn-secondary btn-sm">기타</button>
+    </div> -->
+    <div style="padding:0px 0px 12px 0px;"></div>
 
-      <p>
-        <a role="button" onclick="openClose()"> 좋아요 </a>
-      </p>
-
-
+  <!-- 전시 영역 -->
     <div id="cardsBox"class="card-columns screenWidth">
       <div class="card">
         <img class="card-img-top" src="https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/2015_Dec/mercedes-benz-suv-hed-2015.png" alt="Card image cap">
         <div class="card-body">
           <h5 class="card-title"> 타이틀 </h5>
-          <p class="card-text"> 메모에 대한 설명이 들어갑니다. </p>
-          <p class="cardComment"> 코멘트가 들어갑니다. </p>
+          <p class="cardComment"> 남겨진 코멘트가 들어갑니다. </p>
+          <!-- 코멘트 -->
+          <div>
+            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#writing" data-whatever="@mdo">코멘트하기</button>
+          </div>
+          <div class="modal fade" id="writing" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">코멘트를 추가하세요</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="form-group">
+                      <label for="message-text" class="col-form-label">닉네임</label>
+                      <textarea class="form-control" id="nickname"></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="message-text" class="col-form-label">남기는 말</label>
+                      <textarea class="form-control" id="contents"></textarea>
+                    </div>              
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">아니요</button>
+                  <button onclick="writing_confirm()" type="button" class="btn btn-primary">네, 남기겠습니다.</button>
+                </div>
+              </div>
+            </div>
+          </div>
+            <!-- 좋아요 -->
+          <div style="padding:0px 0px 4px 0px;"></div> <!-- 나중에 좋아요 버튼을 우측으로 보내고 삭제할 녀석 -->
+          <div>
+            <button onclick="like()" class="btn btn-outline-primary btn-sm">좋아요</button>
+          </div>
         </div>
->>>>>>> 9e004e66cee9da414779c082069aec09f986b694
       </div>
-      <div>
-        <button onclick="writing()" class="btn btn-primary btn-sm">코멘트</button>
-      </div>
-      <div>
-        <input type="text" placeholder="닉네임">
-      </div>
-      <div>
-        <input type="text" placeholder="내용">
-      </div>
-      <div>
-        <button onclick="writing_confirm()" class="btn btn-primary btn-sm">확인</button>
-      </div>
-      <div>
-        <button onclick="like()" class="btn btn-primary btn-sm">좋아요</button>
-      </div>
-
-      <div class="card">
-        <img class="card-img-top" src="https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/2015_Dec/mercedes-benz-suv-hed-2015.png" alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title"> 타이틀 </h5>
-          <p> 닉네임 </p>
-          <p> 남긴 코멘트가 들어갑니다. </p>
-        </div>
-      </div>
-    
+    </div>
+  
+  <!-- 하단 -->
     <div style="padding:0px 0px 40px 0px;"></div>
     <p class="footer"> Copyright(c) zeseung All rights reserved. </p>
     <div style="padding:0px 0px 40px 0px;"></div>
