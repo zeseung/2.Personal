@@ -98,6 +98,5 @@ def likecounting():
 # 좋아요를 누르면 bookmarkDB의 likeCount에 +1씩 쌓음 (이걸 이렇게 하는 것이 맞나? - 이건 자바스크립트로 하면 되려나?)
 '''
 
-
 if __name__ == '__main__':
    app.run('0.0.0.0',port=5000,debug=True)
