@@ -17,21 +17,8 @@
     <!-- Google Webfont -->
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:300&display=swap" rel="stylesheet">
 
-    <script> // 북마크 등록 (부트스트랩에 있던 코드 - 뭔지 모름)
- //     $('#posting').on('show.bs.modal', function (event) {
- //       var button = $(event.relatedTarget) // Button that triggered the modal
- //       var recipient = button.data('whatever') // Extract info from data-* attributes
-        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
- //       var modal = $(this)
- //       modal.find('.modal-title').text('New message to ' + recipient)
- //       modal.find('.modal-body input').val(recipient)
- //      })
-    </script>
-
     <script> // 북마크 등록
        function posting_confirm() {
-//        console.log('posting confirm call'); // 동작 확인
         let category = $('#category').val();
         let title = $('#title').val();
         let url = $('#url').val();
@@ -42,12 +29,11 @@
           url: "/post",
           data: { category_give: category, title_give: title, url_give: url, likeCount_give: likeCount},
           success: function(response){
-//            console.log("success function recall"); // 동작 확인
             if (response['result'] == "success") {
               alert('등록하였습니다.');
-              location.reload(); // 화면 새로고침 (학습자료에서 앞에 window라고 붙이는 이유는?)
+              location.reload(); // 화면 새로고침
             } else {
-              alert('등록하지 못했습니다.') // 이거 왜 안될까?
+              alert('등록하지 못했습니다.') // 이후에 필수 값 체크 기능 추가
             }
           }
         })
@@ -92,8 +78,43 @@
       function makeCard(title, url) {
        console.log("rendering contents")
         let tempHtml = '<div class="card"> \
+          <img class="card-img-top" src="https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/2015_Dec/mercedes-benz-suv-hed-2015.png" alt="Card image cap">\
           <div class="card-body"> \
           <a href="'+url+'" target="_blank" class="card-title"> '+title+' </a> \
+          <p class="cardComment"> 남겨진 코멘트가 들어갑니다. </p>\
+          <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#writing" data-whatever="@mdo">코멘트하기</button>\
+                    <div class="modal fade" id="writing" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">\
+            <div class="modal-dialog" role="document">\
+              <div class="modal-content">\
+                <div class="modal-header">\
+                  <h5 class="modal-title" id="exampleModalLabel">코멘트를 추가하세요</h5>\
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">\
+                    <span aria-hidden="true">&times;</span>\
+                  </button>\
+                </div>\
+                <div class="modal-body">\
+                  <form>\
+                    <div class="form-group">\
+                      <label for="message-text" class="col-form-label">닉네임</label>\
+                      <textarea class="form-control" id="nickname"></textarea>\
+                    </div>\
+                    <div class="form-group">\
+                      <label for="message-text" class="col-form-label">남기는 말</label>\
+                      <textarea class="form-control" id="contents"></textarea>\
+                    </div>\
+                  </form>\
+                </div>\
+                <div class="modal-footer">\
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">아니요</button>\
+                  <button onclick="writing_confirm()" type="button" class="btn btn-primary">네, 남기겠습니다.</button>\
+                </div>\
+              </div>\
+            </div>\
+          </div>\
+          <div style="padding:0px 0px 4px 0px;"></div> <!-- 나중에 좋아요 버튼을 우측으로 보내고 삭제할 녀석 -->\
+          <div>\
+            <button onclick="like()" class="btn btn-outline-primary btn-sm">좋아요</button>\
+          </div>\
         </div> \
       </div>';
       $('#cardsBox').append(tempHtml);
@@ -109,7 +130,6 @@
   <!-- 포스팅 -->
       <div>
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#posting" data-whatever="@mdo">등록하기</button>
-        <!-- <button onclick="posting()" class="btn btn-primary btn-sm">등록</button> -->
       </div>
       <div class="modal fade" id="posting" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -164,13 +184,6 @@
         <input onclick="category3()" type="radio" name="options" id="option3" autocomplete="off"> 기타
       </label>
     </div>
-  <!-- 카테고리 선택은 라디오로 변경
-    <div class="btn-group" role="group" aria-label="Basic example">
-      <button type="button" class="btn btn-secondary btn-sm">전체 보기</button>
-      <button type="button" class="btn btn-secondary btn-sm">뉴스와 소식 </button>
-      <button type="button" class="btn btn-secondary btn-sm">자료나 업무관련</button>
-      <button type="button" class="btn btn-secondary btn-sm">기타</button>
-    </div> -->
     <div style="padding:0px 0px 12px 0px;"></div>
 
   <!-- 전시 영역 -->
