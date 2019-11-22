@@ -7,9 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <!-- CSS file 참조
-    <link rel = "stylesheet" type = "text/css" href = "mystyle.css">
-    -->
+    <!-- CSS file 참조 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='mystyle.css') }}">
     <!-- JS -->   
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -78,11 +77,11 @@
       function makeCard(title, url) {
        console.log("rendering contents")
         let tempHtml = '<div class="card"> \
-          <img class="card-img-top" src="https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/2015_Dec/mercedes-benz-suv-hed-2015.png" alt="Card image cap">\
+          <img class="card-img-top" src="https://miro.medium.com/max/256/1*DR0Stne2RFXhc-NULv3gwQ.png" alt="Card image cap">\
           <div class="card-body"> \
           <a href="'+url+'" target="_blank" class="card-title"> '+title+' </a> \
           <p class="cardComment"> 남겨진 코멘트가 들어갑니다. </p>\
-          <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#writing" data-whatever="@mdo">코멘트하기</button>\
+          <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#writing" data-whatever="@mdo">코멘트하기</button>\
                     <div class="modal fade" id="writing" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">\
             <div class="modal-dialog" role="document">\
               <div class="modal-content">\
@@ -113,7 +112,7 @@
           </div>\
           <div style="padding:0px 0px 4px 0px;"></div> <!-- 나중에 좋아요 버튼을 우측으로 보내고 삭제할 녀석 -->\
           <div>\
-            <button onclick="like()" class="btn btn-outline-primary btn-sm">좋아요</button>\
+            <button onclick="like()" class="btn btn-outline-dark btn-sm">좋아요</button>\
           </div>\
         </div> \
       </div>';
@@ -124,13 +123,33 @@
   
   <body>
   <!-- 상단 -->
-      <h1 class="servicename"> Webmark Together </h1>
-      <p> 자유롭게 웹을 공유하고 생각을 이야기하세요. </p>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
+	  <a class="navbar-brand" href="#">
+        <img src="https://miro.medium.com/max/256/1*DR0Stne2RFXhc-NULv3gwQ.png"/ width="30" height="30" class="d-inline-block align-top" alt="">
+		  Our Webmark</a>
+	    <!-- 카테고리 선택 -->
+	    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+    	  <!-- <label class="btn btn-secondary btn-sm">
+        	<input onclick="categoryall()" type="radio" name="options" id="option1" autocomplete="off" checked>전체보기
+  	      </label> 전체보기는 나중에 추가하자 -->
+	      <label class="btn btn-outline-dark btn-sm active">
+	        <input onclick="category1()"type="radio" name="options" id="option2" autocomplete="off">뉴스와 소식
+	      </label>
+	      <label class="btn btn-outline-dark btn-sm">
+	        <input onclick="category2()" type="radio" name="options" id="option3" autocomplete="off">자료나 업무 관련
+	      </label>
+	      <label class="btn btn-outline-dark btn-sm">
+	        <input onclick="category3()" type="radio" name="options" id="option3" autocomplete="off">기타
+	      </label>
+	    </div>
+
+	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	    <ul class="navbar-nav mr-auto"></ul>
+      	  <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#posting" data-whatever="@mdo">등록하기</button>
+	  </div>
+	</nav>
 
   <!-- 포스팅 -->
-      <div>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#posting" data-whatever="@mdo">등록하기</button>
-      </div>
       <div class="modal fade" id="posting" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -168,22 +187,6 @@
           </div>
         </div>
       </div>
-    <div style="padding:0px 0px 8px 0px;"></div> <!-- 나중에 등록하기 버튼을 우측으로 보내고 삭제할 녀석 -->
-  <!-- 카테고리 선택 -->
-    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-    <!--  <label class="btn btn-secondary btn-sm">
-        <input onclick="categoryall()" type="radio" name="options" id="option1" autocomplete="off" checked> 전체보기
-      </label> 전체보기는 나중에 추가하자 -->
-      <label class="btn btn-secondary btn-sm active">
-        <input onclick="category1()"type="radio" name="options" id="option2" autocomplete="off"> 뉴스와 소식
-      </label>
-      <label class="btn btn-secondary btn-sm">
-        <input onclick="category2()" type="radio" name="options" id="option3" autocomplete="off"> 자료나 업무 관련
-      </label>
-      <label class="btn btn-secondary btn-sm">
-        <input onclick="category3()" type="radio" name="options" id="option3" autocomplete="off"> 기타
-      </label>
-    </div>
     <div style="padding:0px 0px 12px 0px;"></div>
 
   <!-- 전시 영역 -->
@@ -235,8 +238,5 @@
     </div>
   
   <!-- 하단 -->
-    <div style="padding:0px 0px 40px 0px;"></div>
-    <p class="footer"> Copyright(c) zeseung All rights reserved. </p>
-    <div style="padding:0px 0px 40px 0px;"></div>
-  </body>
+  <p class="footer"> Copyrightⓒ zeseung, All rights reserved. </p>
 </html>
