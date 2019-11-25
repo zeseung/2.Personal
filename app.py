@@ -24,34 +24,6 @@ def listing():
     return jsonify({'result':'success', 'bookmarkDB_test':result})
     # 코멘트는 북마크 고유 아이디를 기준으로 붙여서 가져오기 (나중에 물어보자)
 
-#모르겠다... 다시 해보자
-# for in a.id_list
-#    a_id =a.id
-#    comments = db.find (article_id)
-#    a.comments= comments
-
-# SELECT tb1.sales, tb1.products, tb.id FROM tb1 INNER JOIN tb ON tb1.id = tb.id WHERE tb1.content_id=1;
-
-# SELECT STADIUM.STADIUM_NAME, STADIUM.STADIUM_ID, STADIUM.SEAT_COUNT, STADIUM.HOMETEAM_ID, TEAM.TEAM_NAME
-# FROM STADIUM LEFT OUTER JOIN TEAM
-# ON STADIUM.HOMETEAM_ID = TEAM.TEAM_ID
-# ORDER BY STADIUM.HOMETEAM_ID;
-
-# select bookmarkDB_test._id FROM commentDB_test inner join  bookmarkDB on commentDB_test = bookmarkDB_test._id Where commentDB_test.bookmarkId;
-# 이건 잘못 찾은 듯.. mongoDB 조인으로 다시 검색
-
-# db.bookmarkDB_test.aggregate([
-# { $lookup:
-#        { from: "commentDB_test",
-#          localField: "_id",
-#          foreignField: "bookmarkId",
-#          as: "comment_docs"
-#        }
-#   },
-#   { $out : "bookmarkpluscomment" }
-# ])
-# 이것도 아니네.... 파이썬에서 mongoDB 조인으로 다시 검색
-
 # API 역할을 하는 부분
 @app.route('/post', methods=['POST'])
 def bookmarking():
@@ -61,12 +33,9 @@ def bookmarking():
     title_receive = request.form['title_give']
     url_receive = request.form['url_give']
 
-# meta tag를 스크래핑 하는 부분 (이미지만 가져오게 될 듯 // 이미지가 없는 경우 대체 이미지 노출 - 이건 자바스크립트로 하면 되려나?)
-
-    '''
+# meta tag를 스크래핑 하는 부분
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
     data = requests.get(url_receive, headers=headers)
-
     soup = BeautifulSoup(data.text, 'html.parser')
 
     og_image = soup.select_one('meta[property="og:image"]')
@@ -74,15 +43,13 @@ def bookmarking():
 
 # mongoDB에 넣는 부분
     bookmark = {'category': category_receive, 'likeCount': likeCount_receive, 'title': title_receive, 'url': url_receive, 'image': url_image}
-    '''
-    bookmark = {'category': category_receive, 'likeCount': likeCount_receive, 'title': title_receive, 'url': url_receive}
     db.bookmarkDB_test.insert_one(bookmark)
 
     return jsonify({'result': 'success'})
 
 @app.route('/comment', methods=['POST'])
 def commenting():
-# 코멘트를 남기면 북마크 별로 저장 (mongoDB 고유 아이디는 어떻게 쌓지?)
+# 코멘트를 남기면 북마크 별로 저장
     bookmarkId_receive = request.form['bookmarkId_give']
     nickname_receive = request.form['nickname_give']
     contents_receive = request.form['contents_give']
@@ -92,6 +59,7 @@ def commenting():
     db.commentDB_test.insert_one(comment)
 
     return jsonify({'result': 'success'})
+
 '''
 @app.route('/like', methods=['POST'])
 def likecounting():
