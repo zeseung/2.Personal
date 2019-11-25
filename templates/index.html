@@ -1,20 +1,19 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Webmark Together</title>
+    <title>Our Webmark</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <!-- CSS file 참조 -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='mystyle.css') }}">
     <!-- JS -->   
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- Google Webfont -->
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:300&display=swap" rel="stylesheet">
+	<link rel="icon" type="image/png" sizes="32x32" href="https://miro.medium.com/max/256/1*VP3503IDVKh4Qzwvoidqtw.png"> <!-- Favicon -->
 
     <script> // 북마크 등록
        function posting_confirm() {
@@ -39,7 +38,30 @@
       }
     </script>
 
-    <script> // 코멘트를 추가해라
+    <script> // 코멘트를 추가해라 (현재 동작하지 않음)
+    	function writing_confirm() {
+    	//	let bookmarkId = $('#_id').val();
+    		let nickname = $('#nickname').val();
+//    		let contents = $('#contents').val();
+
+    		$.ajax({
+    			type: "POST",
+    			url: "/comment"
+//    			data: { bookmarkId_give: bookmark, nickname_give: nickname, contents_give: contents},
+//    			data: { nickname_give: nickname, contents_give: contents},
+    			data: { nickname_give: nickname},
+    			success: function(response){
+    				if (response['result'] == "success") {
+    					alert('코멘트를 남겼습니다.');
+    					location.reload();
+    				} else {
+    					alert('코멘트를 남기지 못했습니다.')
+    				}
+		             console.log(response)
+
+    			}
+    		})
+    	}
     </script>
 
     <script> // 좋아요를 +1
@@ -57,32 +79,32 @@
           url: "/post?category_give=뉴스와 소식",
           data: {},
           success: function(response){
-            console.log("ajax listing")
             if (response['result'] == "success") {
               let bookmarklist = response['bookmarkDB_test'];
-              console.log("bookmarkDB response")
-              console.log("bookmarklist length")
-              console.log(bookmarklist)
               for (var i = 0; i < bookmarklist.length; i++) {
-                makeCard(bookmarklist[i]['title'], bookmarklist[i]['url'], bookmarklist[i]['likeCount'])
+                makeCard(bookmarklist[i]['title'], bookmarklist[i]['url'], bookmarklist[i]['likeCount'], bookmarklist[i]['image'])
               }
             } else {
               alert('북마크를 받아오지 못했습니다.');
             }
-             console.log("ajax listing")
           }
         })
       }
 
       function makeCard(title, url) {
-       console.log("rendering contents")
         let tempHtml = '<div class="card"> \
           <img class="card-img-top" src="https://miro.medium.com/max/256/1*DR0Stne2RFXhc-NULv3gwQ.png" alt="Card image cap">\
           <div class="card-body"> \
           <a href="'+url+'" target="_blank" class="card-title"> '+title+' </a> \
-          <p class="cardComment"> 남겨진 코멘트가 들어갑니다. </p>\
+		  <div style="padding:0px 0px 8px 0px;"></div>\
+		  <dl class="row cardheight">\
+		  	  <dt class="col-sm-3 CardNickname">닉네임</dt>\
+ 			  <dd class="col-sm-9 CardComment">남겨진 코멘트가 들어갑니다.</dd>\
+ 			  <dt class="col-sm-3 CardNickname">닉네임</dt>\
+ 			  <dd class="col-sm-9 CardComment">남겨진 코멘트가 들어갑니다.</dd>\
+ 	      </dl>\
           <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#writing" data-whatever="@mdo">코멘트하기</button>\
-                    <div class="modal fade" id="writing" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">\
+          <div class="modal fade" id="writing" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">\
             <div class="modal-dialog" role="document">\
               <div class="modal-content">\
                 <div class="modal-header">\
@@ -119,6 +141,15 @@
       $('#cardsBox').append(tempHtml);
       }
     </script>
+  
+  <style>
+	.screenWidth {max-width: 1440px; margin: 0px auto 0px auto;}
+	.footer {text-align: center;}
+	.CardNickname {font-size: small;}
+	.CardComment {font-size: small; margin-bottom: 4px;}
+	.cardheight {margin-bottom: 4px;}
+  </style>
+
   </head>
   
   <body>
@@ -142,7 +173,6 @@
 	        <input onclick="category3()" type="radio" name="options" id="option3" autocomplete="off">기타
 	      </label>
 	    </div>
-
 	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
 	    <ul class="navbar-nav mr-auto"></ul>
       	  <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#posting" data-whatever="@mdo">등록하기</button>
@@ -195,6 +225,7 @@
         <img class="card-img-top" src="https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/2015_Dec/mercedes-benz-suv-hed-2015.png" alt="Card image cap">
         <div class="card-body">
           <h5 class="card-title"> 타이틀 </h5>
+          <p class="nickname"> 닉네임 </p>
           <p class="cardComment"> 남겨진 코멘트가 들어갑니다. </p>
           <!-- 코멘트 -->
           <div>
