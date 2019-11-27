@@ -19,7 +19,11 @@ def listing():
     # author_give 클라이언트가 준 author를 가져오기 // 카테고리별로 가져오게 하기
     category_receive = request.args.get('category_give')
     # author의 값이 받은 author와 일치하는 document 찾기 & _id 값은 출력에서 제외하기
-    result = list(db.bookmarkDB_test.find({'category':category_receive},{'_id':0}))
+    result = list(db.bookmarkDB_test.find({'category':category_receive}))
+
+    for bm in result:
+        bm['_id'] = str(bm['_id'])
+
     # articles라는 키 값으로 내려주기
     return jsonify({'result':'success', 'bookmarkDB_test':result})
     # 코멘트는 북마크 고유 아이디를 기준으로 붙여서 가져오기 (나중에 물어보자)
@@ -50,6 +54,7 @@ def bookmarking():
 @app.route('/comment', methods=['POST'])
 def commenting():
 # 코멘트를 남기면 북마크 별로 저장
+
     bookmarkId_receive = request.form['bookmarkId_give']
     nickname_receive = request.form['nickname_give']
     contents_receive = request.form['contents_give']
@@ -63,6 +68,11 @@ def commenting():
 '''
 @app.route('/like', methods=['POST'])
 def likecounting():
+    likeCount_receive = request.form['likeCount_give']
+    bookmark = {'likeCount': likeCount_receive}
+    db.bookmarkDB_test.insert_one(bookmark)
+
+    return jsonify({'result': 'success'})
 # 좋아요를 누르면 bookmarkDB의 likeCount에 +1씩 쌓음 (이걸 이렇게 하는 것이 맞나? - 이건 자바스크립트로 하면 되려나?)
 '''
 
